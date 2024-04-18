@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-go-app
+  namespace: example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-go-app
+  template:
+    metadata:
+      labels:
+        app: my-go-app
+    spec:
+      containers:
+        - name: my-go-app
+          image: my-go-app:v0
+          args:
+            [
+              "./myapp",
+              "--address",
+              "0.0.0.0:8080",
+              "--base-path",
+              "/svc1",
+              "--trace-endpoint",
+              "grafana-tempo-distributed-distributor.monitoring.svc.cluster.local:4318",
+            ]
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: "svc1"
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-go-app-service
+  namespace: example
+spec:
+  selector:
+    app: my-go-app
+  ports:
+    - port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-go-app-ingress
+  namespace: example
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - path: /svc1(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: my-go-app-service
+                port:
+                  number: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-go-app-2
+  namespace: example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-go-app-2
+  template:
+    metadata:
+      labels:
+        app: my-go-app-2
+    spec:
+      containers:
+        - name: my-go-app-2
+          image: my-go-app:v0
+          args:
+            [
+              "./myapp",
+              "--address",
+              "0.0.0.0:8080",
+              "--base-path",
+              "/svc2",
+              "--trace-endpoint",
+              "grafana-tempo-distributed-distributor.monitoring.svc.cluster.local:4318",
+              "--proxy-endpoint",
+              "http://my-go-app-service:8080/svc1",
+            ]
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: "svc2"
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-go-app-2-service
+  namespace: example
+spec:
+  selector:
+    app: my-go-app-2
+  ports:
+    - port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-go-app-2-ingress
+  namespace: example
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - path: /svc2(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: my-go-app-2-service
+                port:
+                  number: 8080
+---
+

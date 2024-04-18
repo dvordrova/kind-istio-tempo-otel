@@ -1,0 +1,48 @@
+---
+adminUser: admin
+adminPassword: devops123
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+
+  path: /grafana/?(.*)
+  hosts:
+    - localhost
+
+grafana.ini:
+  server:
+    root_url: http://localhost:80/grafana # this host can be localhost
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+
+    datasources:
+      - name: victoria-metrics
+        type: prometheus
+        access: proxy
+        orgId: 1
+        url: http://victoria-metrics-victoria-metrics-single-server:8428
+        basicAuth: false
+        isDefault: true
+        version: 1
+        editable: true
+        apiVersion: 1
+        uid: victoria-metrics
+      - name: Tempo
+        type: tempo
+        access: proxy
+        orgId: 1
+        url: http://grafana-tempo-distributed-query-frontend:3100
+        basicAuth: false
+        isDefault: false
+        version: 1
+        editable: true
+        apiVersion: 1
+        uid: tempo
+        jsonData:
+          serviceMap:
+            datasourceUid: victoria-metrics

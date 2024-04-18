@@ -1,0 +1,34 @@
+traces:
+  otlp:
+    grpc:
+      enabled: false
+    http:
+      enabled: true
+  zipkin:
+    enabled: false
+  jaeger:
+    thriftHttp:
+      enabled: false
+  opencensus:
+    enabled: false
+metricsGenerator:
+  enabled: true
+  config:
+    storage:
+      remote_write_flush_deadline: 1m
+      remote_write:
+        - url: http://victoria-metrics-victoria-metrics-single-server:8428/api/v1/write
+          send_exemplars: true
+distributor:
+  config:
+    log_received_spans:
+      enabled: true
+      include_all_attributes: true
+ingester:
+  replicas: 1
+  config:
+    replication_factor: 1
+global_overrides:
+  metrics_generator_processors:
+    - service-graphs
+    - span-metrics

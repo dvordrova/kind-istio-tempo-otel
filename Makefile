@@ -1,14 +1,14 @@
 .PHONY: prepare-codespace run destroy
 
 prepare-codespace:
-	@sudo apt-get update
-	@sudo apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common
+	# @sudo apt-get update
+	# @sudo apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common
 	@sudo mkdir -p -m 755 /etc/apt/keyrings
 	@curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \
 	sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 	@sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
-	@echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] \
-	https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | \
+	@echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] \
+	https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" | \
 	sudo tee /etc/apt/sources.list.d/kubernetes.list
 	@sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list   # helps tools such as command-not-found to work correctly
 	@wget -O- https://apt.releases.hashicorp.com/gpg | \
@@ -18,14 +18,15 @@ prepare-codespace:
 	--keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
 	--fingerprint
 	@echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
-	https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+	https://apt.releases.hashicorp.com $(shell lsb_release -cs) main" | \
 	sudo tee /etc/apt/sources.list.d/hashicorp.list
-	# For AMD64 / x86_64
-	@[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-$(uname)-amd64
-	# For ARM64
-	@[ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-$(uname)-arm64
-	@chmod +x ./kind
-	@sudo mv ./kind /usr/local/bin/kind
+
+	@sudo apt-get update
+	@sudo apt-get install -y terraform kubectl
+	([ "$(shell uname -m)" = "x86_64" ] && curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.22.0/kind-$(shell uname)-amd64") || true
+	([ "$(shell uname -m)" = "aarch64" ] && curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.22.0/kind-$(shell uname)-arm64") || true
+	chmod +x ./kind
+	sudo mv ./kind /usr/local/bin/kind
 
 run:
 	@terraform -chdir=$(CURDIR)/terraform init

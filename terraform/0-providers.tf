@@ -10,6 +10,11 @@ terraform {
       version = "2.22.0"
     }
 
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.7.0"
+    }
+
     helm = {
       source  = "hashicorp/helm"
       version = "2.10.1"
@@ -19,14 +24,21 @@ terraform {
       source  = "hashicorp/null"
       version = "3.2.1"
     }
-
-    grafana = {
-      source  = "grafana/grafana"
-      version = ">= 2.9.0"
-    }
   }
 
   required_version = ">= 1.0.0"
+}
+
+variable "kind_cluster_name" {
+  type        = string
+  description = "The name of the cluster."
+  default     = "demo-local"
+}
+
+variable "kind_cluster_config_path" {
+  type        = string
+  description = "The location where this cluster's kubeconfig will be saved to."
+  default     = "~/.kube/config"
 }
 
 provider "kind" {

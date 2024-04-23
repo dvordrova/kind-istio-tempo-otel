@@ -1,3 +1,7 @@
+# to check defaults
+# helm repo add grafana https://grafana.github.io/helm-charts
+# helm repo update
+# helm show values grafana/tempo-distributed --version 1.9.1
 traces:
   otlp:
     grpc:
@@ -11,7 +15,12 @@ traces:
       enabled: false
   opencensus:
     enabled: false
+tempo:
+  memberlist:
+    appProtocol: tcp
 metricsGenerator:
+  appProtocol:
+    grpc: tcp
   enabled: true
   config:
     storage:
@@ -24,7 +33,18 @@ distributor:
     log_received_spans:
       enabled: true
       include_all_attributes: true
+  appProtocol:
+    grpc: tcp
+querier:
+  appProtocol:
+    grpc: tcp
+queryFrontend:
+  appProtocol:
+    grpc: tcp
 ingester:
+  memberlist:
+    appProtocol:
+      grpc: tcp
   replicas: 1
   config:
     replication_factor: 1

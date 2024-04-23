@@ -1,4 +1,4 @@
-resource "kind_cluster" "default" {
+resource "kind_cluster" "new" {
   name            = var.kind_cluster_name
   kubeconfig_path = pathexpand(var.kind_cluster_config_path)
   wait_for_ready  = true
@@ -25,6 +25,18 @@ resource "kind_cluster" "default" {
       extra_port_mappings {
         container_port = 443
         host_port      = 443
+      }
+      extra_port_mappings {
+        container_port = 30443
+        host_port      = 30443
+      }
+      extra_port_mappings {
+        container_port = 30080
+        host_port      = 30080
+      }
+      extra_port_mappings {
+        container_port = 30021
+        host_port      = 30021
       }
     }
 

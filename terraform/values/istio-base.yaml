@@ -1,0 +1,4 @@
+# to check defaults
+# helm repo add istio https://istio-release.storage.googleapis.com/charts
+# helm repo update
+# helm show values istio/base --version 1.21.1

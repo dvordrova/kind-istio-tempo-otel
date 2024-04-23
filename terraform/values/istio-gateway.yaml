@@ -1,0 +1,31 @@
+# to check defaults
+# helm repo add istio https://istio-release.storage.googleapis.com/charts
+# helm repo update
+# helm show values istio/gateway --version 1.21.1
+service:
+  type: NodePort
+  ports:
+    - name: status-port
+      port: 15021
+      nodePort: 30021
+      protocol: TCP
+      targetPort: 15021
+    - name: http2
+      port: 80
+      nodePort: 30080
+      protocol: TCP
+      targetPort: 80
+    - name: https
+      port: 443
+      nodePort: 30443
+      protocol: TCP
+      targetPort: 443
+tolerations:
+  - effect: "NoSchedule"
+    key: "node-role.kubernetes.io/master"
+    operator: "Equal"
+  - effect: "NoSchedule"
+    key: "node-role.kubernetes.io/control-plane"
+    operator: "Equal"
+# nodeSelector:
+#   ingress-ready: "true"

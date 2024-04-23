@@ -1,6 +1,6 @@
 # What
 
-Create cluster with grafana, tempo, victoria metrics
+Create cluster with grafana, tempo, victoria metrics, istio and
 To discover how spans draws like a service graph in tempo
 
 # Prerequisites
@@ -9,29 +9,28 @@ To discover how spans draws like a service graph in tempo
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [docker](https://docs.docker.com/get-docker/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-
-# How to without terraform (TODO)
+- [helm (for manual runs)](https://helm.sh/docs/intro/install/)
 
 # How to
 
-```bash
-cd terraform
-terraform init
-terraform apply
-docker build -t my-go-app:v0 -f ../ci/Dockerfile ..
-kind load docker-image my-go-app:v0 -n demo-local
-kubectl create namespace example
-kubectl apply -f ../ci/deployment.yaml
-curl http://localhost/svc1/hello
+```bash codespace
+make prepare-codespace
+make run
+curl http://localhost:30080/svc2/proxy
 # {"text":"Hello, World!"}
-curl http://localhost/svc2/hello
-# {"text":"Hello, World!"}
-open http://localhost/grafana
-# check user/pass in [terraform/values](terraform/values)
-# "Explore" -> "Service Graph"
+
+# check user/pass in
 ```
 
-go and check result in grafana
+# How to check
+
+Check creds in [terraform/values](terraform/values)
+Open grafana in browser http://localhost:30080/grafana
+Go to "Explore" -> "Service Graph"
+
+```bash destroy
+make destroy
+```
 
 ![result service graph](result.jpg)
 
@@ -43,3 +42,7 @@ moreover in tempo datasource we use our prometheus-compatible victoria for fetch
 
 general application
 [docs](https://grafana.com/docs/tempo/latest/metrics-generator/service_graphs/)
+
+```
+
+```

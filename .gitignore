@@ -2,5 +2,7 @@
 *.tfstate
 *.tfstate.*
 .terraform/
+plan.out
+gen_*
 
 build/

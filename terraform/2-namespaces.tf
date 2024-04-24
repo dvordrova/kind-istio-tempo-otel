@@ -5,7 +5,7 @@ resource "null_resource" "namespace_monitoring" {
 
   provisioner "local-exec" {
     command = <<EOF
-      kubectl create namespace monitoring && \
+      kubectl get namespace monitoring || kubectl create namespace monitoring
       kubectl label namespace monitoring istio-injection=enabled --overwrite
     EOF
   }
@@ -20,7 +20,7 @@ resource "null_resource" "namespace_app" {
 
   provisioner "local-exec" {
     command = <<EOF
-      kubectl create namespace app && \
+      kubectl get namespace app || kubectl create namespace app
       kubectl label namespace app istio-injection=enabled --overwrite
     EOF
   }
@@ -35,7 +35,7 @@ resource "null_resource" "namespace_istio-system" {
 
   provisioner "local-exec" {
     command = <<EOF
-      kubectl create namespace istio-system
+      kubectl get namespace istio-system || kubectl create namespace istio-system
     EOF
   }
 
@@ -49,7 +49,7 @@ resource "null_resource" "namespace_istio-ingress" {
 
   provisioner "local-exec" {
     command = <<EOF
-      kubectl create namespace istio-ingress
+      kubectl get namespace istio-ingress || kubectl create namespace istio-ingress
     EOF
   }
 

@@ -31,6 +31,16 @@ resource "helm_release" "grafana" {
   depends_on       = [helm_release.grafana-tempo-distributed, helm_release.victoria-metrics-single]
 }
 
+resource "helm_release" "prometheus_operator_crds" {
+  name             = "prometheus-operator-crds"
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "prometheus-operator-crds"
+  namespace        = "monitoring"
+  version          = "11.0.0"
+  create_namespace = true
+  depends_on       = [null_resource.namespace_monitoring]
+}
+
 resource "helm_release" "metrics_server" {
   name       = "metrics-server"
   repository = "https://kubernetes-sigs.github.io/metrics-server/"
@@ -39,5 +49,5 @@ resource "helm_release" "metrics_server" {
   version    = "3.12.1"
   wait       = true
   values     = [file("${path.module}/values/monitoring-metrics-server.yaml")]
-  depends_on = [null_resource.namespace_monitoring]
+  depends_on = [helm_release.prometheus_operator_crds]
 }

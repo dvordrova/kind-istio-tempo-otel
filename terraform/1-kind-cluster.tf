@@ -12,12 +12,35 @@ resource "kind_cluster" "new" {
 
       kubeadm_config_patches = [
         <<-EOT
+        kind: ClusterConfiguration
+        etcd:
+          local:
+            # Run etcd in a tmpfs (in RAM) for performance improvements
+            dataDir: /tmp/kind-cluster-etcd
+        apiServer:
+          extraArgs:
+            profiling: "true"
+        # We run single node, drop leader election to reduce overhead
+        controllerManager:
+          extraArgs:
+            leader-elect: "false"
+        scheduler:
+          extraArgs:
+            leader-elect: "false"
+        ---
         kind: InitConfiguration
         nodeRegistration:
           kubeletExtraArgs:
             node-labels: "ingress-ready=true"
+        patches:
+          directory: /patches
         EOT
       ]
+      # patch GOMAXPROCS to 1
+      extra_mounts {
+        host_path      = "${path.module}/kind-patches"
+        container_path = "/patches"
+      }
       extra_port_mappings {
         container_port = 80
         host_port      = 80

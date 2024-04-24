@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-scheduler
+  namespace: kube-system
+spec:
+  containers:
+    - name: kube-scheduler
+      env:
+        - name: GOMAXPROCS
+          value: "1"

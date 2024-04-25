@@ -2,6 +2,10 @@
 # helm repo add grafana https://grafana.github.io/helm-charts
 # helm repo update
 # helm show values grafana/tempo-distributed --version 1.9.1
+tempo:
+  fullname: grafana-tempo-distributed
+  memberlist:
+    appProtocol: tcp
 traces:
   otlp:
     grpc:
@@ -15,9 +19,6 @@ traces:
       enabled: false
   opencensus:
     enabled: false
-tempo:
-  memberlist:
-    appProtocol: tcp
 metricsGenerator:
   appProtocol:
     grpc: tcp
@@ -52,3 +53,6 @@ global_overrides:
   metrics_generator_processors:
     - service-graphs
     - span-metrics
+memberlist:
+  join_members:
+    - dnssrv+_http._tcp.grafana-tempo-distributed-gossip-ring:7946

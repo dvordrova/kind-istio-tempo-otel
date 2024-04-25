@@ -27,6 +27,7 @@ prepare-codespace:
 	([ "$(shell uname -m)" = "aarch64" ] && curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.22.0/kind-$(shell uname)-arm64") || true
 	chmod +x ./kind
 	sudo mv ./kind /usr/local/bin/kind
+	@pip install pyyaml
 
 run:
 	@terraform -chdir=$(CURDIR)/terraform init

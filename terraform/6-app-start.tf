@@ -12,5 +12,5 @@ resource "null_resource" "build_app_image" {
     EOF
   }
 
-  depends_on = [null_resource.restart_tempo_distributed]
+  depends_on = [null_resource.apply_patches]
 }

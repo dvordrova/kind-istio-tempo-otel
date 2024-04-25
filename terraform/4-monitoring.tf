@@ -18,6 +18,9 @@ resource "helm_release" "grafana-tempo-distributed" {
   create_namespace = true
   values           = [file("${path.module}/values/monitoring-tempo.yaml")]
   depends_on       = [null_resource.namespace_monitoring, helm_release.istio-ingressgateway]
+  postrender {
+    binary_path = "${path.module}/scripts/tempo-add-app-protocols.py"
+  }
 }
 
 resource "helm_release" "grafana" {

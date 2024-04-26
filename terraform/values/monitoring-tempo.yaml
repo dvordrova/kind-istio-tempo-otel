@@ -54,5 +54,5 @@ global_overrides:
     - service-graphs
     - span-metrics
 memberlist:
-  join_members:
-    - dnssrv+_http._tcp.grafana-tempo-distributed-gossip-ring:7946
+  rejoin_interval: 60s
+  dead_node_reclaim_time: 60s

@@ -40,7 +40,7 @@ curl http://localhost:30080/svc2/proxy
 
 ![grafana creds](images/check-grafana-creds.jpg)
 
-## Open expore tab
+## Open explore tab
 
 Go to "Explore" -> "Service Graph"
 

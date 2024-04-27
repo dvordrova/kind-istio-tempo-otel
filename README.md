@@ -28,7 +28,7 @@ Check creds in [terraform/values](terraform/values)
 Open grafana in browser http://localhost:30080/grafana
 Go to "Explore" -> "Service Graph"
 
-![result service graph](tempo-my-go-app.jpg)
+![result service graph](images/tempo-my-go-app.jpg)
 ![bonus](images/tempo-tempo-service-graph.jpg)
 
 # How to destroy cluster

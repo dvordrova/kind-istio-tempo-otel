@@ -15,6 +15,12 @@ To discover how spans draws like a service graph in tempo
 
 # How to run (Github Codespaces)
 
+## Create codespace
+
+![create codespace](images/codespace-create.jpg)
+
+## Run next commands
+
 ```bash
 make prepare-codespace
 make run
@@ -22,14 +28,30 @@ curl http://localhost:30080/svc2/proxy
 # {"text":"Hello, World!"}
 ```
 
-# How to check
+## Find the proxied port 3080
 
-Check creds in [terraform/values](terraform/values)
-Open grafana in browser http://localhost:30080/grafana
+![find port](images/check-grafana-find-port.jpg)
+
+## Go to grafana
+
+![grafana](images/check-grafana-go-to-grafana.jpg)
+
+## Pass creds to grafana
+
+![grafana creds](images/check-grafana-creds.jpg)
+
+## Open expore tab
+
 Go to "Explore" -> "Service Graph"
+
+## Results
 
 ![result service graph](images/tempo-my-go-app.jpg)
 ![bonus](images/tempo-tempo-service-graph.jpg)
+
+## Friendly reminder
+
+delete codespace after you finish if don't need it anymore
 
 # How to destroy cluster
 
@@ -45,7 +67,3 @@ the go application itelf make spans and sends them to tempo distributor (otel)
 on top of that istio tracks down requests from servicer to service and sends them to tempo distributor (zipkin)
 
 [docs](https://grafana.com/docs/tempo/latest/metrics-generator/service_graphs/)
-
-```
-
-```

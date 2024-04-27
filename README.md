@@ -28,7 +28,7 @@ curl http://localhost:30080/svc2/proxy
 # {"text":"Hello, World!"}
 ```
 
-## Find the proxied port 30080
+## Find the proxied port 30080 and open it in browser
 
 ![find port](images/check-grafana-find-port.jpg)
 

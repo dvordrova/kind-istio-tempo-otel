@@ -4,7 +4,9 @@ Create cluster with grafana, tempo, victoria metrics, istio and
 To discover how spans draws like a service graph in tempo
 
 # Prerequisites
+
 - make
+- python3
 - [terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [docker](https://docs.docker.com/get-docker/)
@@ -28,6 +30,7 @@ Go to "Explore" -> "Service Graph"
 ![result service graph](result.jpg)
 
 # How to destroy cluster
+
 ```bash destroy
 make destroy
 ```

@@ -1,5 +1,5 @@
-data "external" "go_files_checksum" {
-  program = ["bash", "-c", "find ${path.module}/../ -name '*.go' -exec sha256sum {} \\; | awk '{print $1}' | sort | sha256sum | cut -d' ' -f1"]
+locals {
+  dkr_img_src_sha256 = sha256(join("", [for f in fileset(".", "${path.module}/../**/*.go") : file(f)]))
 }
 
 resource "null_resource" "build_app_image" {
@@ -8,7 +8,7 @@ resource "null_resource" "build_app_image" {
     file_dockerfile   = filesha256("${path.module}/../ci/Dockerfile")
     file_go_mod       = filesha256("${path.module}/../go.mod")
     file_go_sum       = filesha256("${path.module}/../go.sum")
-    go_files_checksum = data.external.go_files_checksum.result["stdout"]
+    go_files_checksum = local.dkr_img_src_sha256
   }
 
   provisioner "local-exec" {

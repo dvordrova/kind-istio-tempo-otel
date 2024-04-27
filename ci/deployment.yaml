@@ -28,7 +28,7 @@ spec:
             ]
           env:
             - name: OTEL_SERVICE_NAME
-              value: "svc1"
+              value: "my-go-app"
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -96,7 +96,7 @@ spec:
             ]
           env:
             - name: OTEL_SERVICE_NAME
-              value: "svc2"
+              value: "my-go-app-2"
           ports:
             - containerPort: 8080
               protocol: TCP

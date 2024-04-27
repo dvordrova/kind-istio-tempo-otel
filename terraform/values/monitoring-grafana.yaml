@@ -18,7 +18,7 @@ datasources:
         type: prometheus
         access: proxy
         orgId: 1
-        url: http://victoria-metrics-victoria-metrics-single-server:8428
+        url: http://vm-victoria-metrics-single-victoria-server:8428
         basicAuth: false
         isDefault: true
         version: 1

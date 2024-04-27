@@ -1,5 +1,5 @@
 resource "helm_release" "victoria-metrics-single" {
-  name             = "victoria-metrics"
+  name             = "vm"
   repository       = "https://victoriametrics.github.io/helm-charts/"
   chart            = "victoria-metrics-single"
   namespace        = "monitoring"

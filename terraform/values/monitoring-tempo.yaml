@@ -27,25 +27,15 @@ metricsGenerator:
     storage:
       remote_write_flush_deadline: 1m
       remote_write:
-        - url: http://victoria-metrics-victoria-metrics-single-server:8428/api/v1/write
+        - url: http://vm-victoria-metrics-single-victoria-server:8428/api/v1/write
           send_exemplars: true
-distributor:
-  config:
-    log_received_spans:
-      enabled: true
-      include_all_attributes: true
-  appProtocol:
-    grpc: tcp
-querier:
-  appProtocol:
-    grpc: tcp
-queryFrontend:
-  appProtocol:
-    grpc: tcp
+# distributor:
+# if you want debug logs for distributor
+#   config:
+#     log_received_spans:
+#       enabled: true
+#       include_all_attributes: true
 ingester:
-  memberlist:
-    appProtocol:
-      grpc: tcp
   replicas: 1
   config:
     replication_factor: 1

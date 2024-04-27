@@ -3,5 +3,6 @@
 # helm repo update
 # helm show values vm/victoria-metrics-single --version 0.9.17
 server:
+  name: "victoria-server"
   scrape:
     enabled: true

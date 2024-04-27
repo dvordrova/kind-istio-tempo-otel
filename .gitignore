@@ -4,5 +4,6 @@
 .terraform/
 plan.out
 gen_*
+debug_*
 
 build/

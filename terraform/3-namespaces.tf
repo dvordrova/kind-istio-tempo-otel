@@ -1,6 +1,6 @@
 resource "null_resource" "namespace_monitoring" {
   triggers = {
-    always_run = "${timestamp()}"
+    kind_cluster = "${kind_cluster.new.id}"
   }
 
   provisioner "local-exec" {
@@ -15,7 +15,7 @@ resource "null_resource" "namespace_monitoring" {
 
 resource "null_resource" "namespace_app" {
   triggers = {
-    always_run = "${timestamp()}"
+    kind_cluster = "${kind_cluster.new.id}"
   }
 
   provisioner "local-exec" {
@@ -30,7 +30,7 @@ resource "null_resource" "namespace_app" {
 
 resource "null_resource" "namespace_istio-system" {
   triggers = {
-    always_run = "${timestamp()}"
+    kind_cluster = "${kind_cluster.new.id}"
   }
 
   provisioner "local-exec" {
@@ -44,7 +44,7 @@ resource "null_resource" "namespace_istio-system" {
 
 resource "null_resource" "namespace_istio-ingress" {
   triggers = {
-    always_run = "${timestamp()}"
+    kind_cluster = "${kind_cluster.new.id}"
   }
 
   provisioner "local-exec" {

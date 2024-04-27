@@ -1,4 +1,12 @@
 # to check defaults
 # helm repo add istio https://istio-release.storage.googleapis.com/charts
 # helm repo update
-# helm show values istio/gateway --version 1.21.1
+# helm show values istio/istiod --version 1.21.1
+defaults:
+  meshConfig:
+    extensionProviders:
+    - name: zipkin
+      zipkin:
+        service: grafana-tempo-distributed-distributor.monitoring.svc.cluster.local
+        port: 9411
+

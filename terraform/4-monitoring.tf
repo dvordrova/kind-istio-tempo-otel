@@ -52,5 +52,5 @@ resource "helm_release" "metrics_server" {
   version    = "3.12.1"
   wait       = true
   values     = [file("${path.module}/values/monitoring-metrics-server.yaml")]
-  depends_on = [helm_release.prometheus_operator_crds]
+  depends_on = [helm_release.prometheus_operator_crds, helm_release.istio-istiod]
 }

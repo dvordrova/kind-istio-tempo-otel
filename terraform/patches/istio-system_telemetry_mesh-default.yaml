@@ -7,3 +7,7 @@ spec:
   accessLogging:
     - providers:
         - name: envoy
+  tracing:
+    - providers:
+        - name: "zipkin"
+      randomSamplingPercentage: 100.00

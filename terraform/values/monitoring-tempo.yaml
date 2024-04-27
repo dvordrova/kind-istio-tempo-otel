@@ -13,7 +13,7 @@ traces:
     http:
       enabled: true
   zipkin:
-    enabled: false
+    enabled: true
   jaeger:
     thriftHttp:
       enabled: false

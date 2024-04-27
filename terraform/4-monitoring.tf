@@ -10,7 +10,7 @@ resource "helm_release" "victoria-metrics-single" {
 }
 
 resource "helm_release" "grafana-tempo-distributed" {
-  name             = "grafana-tempo-distributed"
+  name             = "tempo"
   repository       = "https://grafana.github.io/helm-charts"
   chart            = "tempo-distributed"
   namespace        = "monitoring"

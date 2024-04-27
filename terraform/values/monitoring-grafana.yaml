@@ -29,7 +29,7 @@ datasources:
         type: tempo
         access: proxy
         orgId: 1
-        url: http://grafana-tempo-distributed-query-frontend:3100
+        url: http://tempo-query-frontend:3100
         basicAuth: false
         isDefault: false
         version: 1

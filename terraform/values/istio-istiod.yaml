@@ -7,6 +7,6 @@ defaults:
     extensionProviders:
     - name: zipkin
       zipkin:
-        service: grafana-tempo-distributed-distributor.monitoring.svc.cluster.local
+        service: tempo-distributor.monitoring.svc.cluster.local
         port: 9411
 

@@ -4,7 +4,15 @@ import sys
 
 def add_app_protocol(service):
     for port in service.get('spec', {}).get('ports', []):
-        port['appProtocol'] = port.get('appProtocol', '') or 'tcp'
+        calculatedAppProtocol = port.get('appProtocol', '') or 'tcp'
+        for protocol in ['https', 'http2', 'grpc', 'http']:
+            if protocol in port['name'] or protocol in str(port['targetPort']):
+                calculatedAppProtocol = protocol
+        if port['name'] == 'gossip-ring':
+            port['appProtocol'] = port.get('appProtocol', '') or 'tcp'
+        else:
+            port['appProtocol'] = calculatedAppProtocol
+
 
 def modify_service(doc, mapper):
     if doc['kind'] == 'Service':
@@ -14,7 +22,7 @@ def modify_yaml(yaml_data):
     with open("grafana-tempo-distributed.yaml", "w") as f:
         f.write(yaml_data)
 
-    yaml_data = yaml_data.replace('dns+grafana-tempo-distributed-gossip-ring:7946', 'dns+grafana-tempo-distributed-gossip-ring.monitoring.svc.cluster.local:7946')
+    yaml_data = yaml_data.replace('dns+tempo-gossip-ring:7946', 'dns+tempo-gossip-ring.monitoring.svc.cluster.local:7946')
     docs = yaml.safe_load_all(yaml_data)
     modified_docs = []
     for doc in docs:

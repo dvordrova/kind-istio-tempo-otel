@@ -3,7 +3,7 @@
 # helm repo update
 # helm show values grafana/tempo-distributed --version 1.9.1
 tempo:
-  fullname: grafana-tempo-distributed
+  fullname: tempo
   memberlist:
     appProtocol: tcp
 traces:

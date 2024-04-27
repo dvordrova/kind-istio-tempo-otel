@@ -27,7 +27,9 @@ curl http://localhost:30080/svc2/proxy
 Check creds in [terraform/values](terraform/values)
 Open grafana in browser http://localhost:30080/grafana
 Go to "Explore" -> "Service Graph"
-![result service graph](result.jpg)
+
+![result service graph](tempo-my-go-app.jpg)
+![bonus](images/tempo-tempo-service-graph.jpg)
 
 # How to destroy cluster
 
@@ -37,11 +39,11 @@ make destroy
 
 # How
 
-we start infrustructure where tempo comes with service metrics-generator, which generates metrics by spans
+we start infrustructure where tempo comes with service metrics-generator, which generates metrics by spans and sends them to victoria-metrics
 
-moreover in tempo datasource we use our prometheus-compatible victoria for fetching metrics for service graph
+the go application itelf make spans and sends them to tempo distributor (otel)
+on top of that istio tracks down requests from servicer to service and sends them to tempo distributor (zipkin)
 
-general application
 [docs](https://grafana.com/docs/tempo/latest/metrics-generator/service_graphs/)
 
 ```

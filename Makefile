@@ -29,6 +29,8 @@ prepare-codespace:
 	sudo mv ./kind /usr/local/bin/kind
 	@pip install pyyaml
 
+	sudo ipv6-fix.sh
+
 run:
 	@terraform -chdir=$(CURDIR)/terraform init
 	@terraform -chdir=$(CURDIR)/terraform apply -auto-approve

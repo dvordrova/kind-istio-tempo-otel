@@ -7,7 +7,7 @@ fi;
 jq ' . += { "ip6tables": false }' /etc/docker/daemon.json;
 
 # restart dockerd
-ps aux | grep [d]ockerd | awk 'NF{print "sudo",$(NF-2),$(NF-1),$NF,"&"}' > prepare.sh;
+ps aux | grep [d]ockerd | awk 'NF{print "sudo",$(NF-2),$(NF-1),$NF,"> /dev/null 2>&1 &"}' > prepare.sh;
 pkill dockerd && \
     while pgrep -l dockerd; do sleep 1; done;
 sh prepare.sh;
